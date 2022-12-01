@@ -15,16 +15,18 @@ public class Product {
     private String manufacturer;
     private Long price;
     private String description;
+    private String imageUrl;
 
-    public Product(Long id, String name, String manufacturer, Long price, String description) {
+    public Product() {
+    }
+
+    public Product(long id, String name, String manufacturer, long price, String description, String imageUrl) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
         this.price = price;
         this.description = description;
-    }
-
-    public Product() {
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -34,7 +36,6 @@ public class Product {
     public String getName() {
         return name;
     }
-
     public String getManufacturer() {
         return manufacturer;
     }
@@ -47,7 +48,11 @@ public class Product {
         return description;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public ProductDto toDto() {
-        return new ProductDto(id, name, manufacturer, price, description);
+        return new ProductDto(id, name, manufacturer, price, description, imageUrl);
     }
 }

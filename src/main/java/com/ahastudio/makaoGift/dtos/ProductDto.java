@@ -4,18 +4,20 @@ public class ProductDto {
     private Long id;
     private String name;
     private String manufacturer;
-    private Long amount;
+    private Long price;
     private String description;
+    private String imageUrl;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String name, String manufacturer, Long amount, String description) {
+    public ProductDto(Long id, String name, String manufacturer, Long price, String description, String imageUrl) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
-        this.amount = amount;
+        this.price = price;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -30,11 +32,19 @@ public class ProductDto {
         return manufacturer;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Long getPrice() {
+        return price;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

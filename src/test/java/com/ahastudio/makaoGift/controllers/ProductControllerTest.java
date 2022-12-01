@@ -1,12 +1,14 @@
 package com.ahastudio.makaoGift.controllers;
 
 import com.ahastudio.makaoGift.anotations.UtfEncoding;
-import com.ahastudio.makaoGift.applications.ProductService;
+import com.ahastudio.makaoGift.applications.GetProductService;
 import com.ahastudio.makaoGift.models.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -31,16 +33,18 @@ class ProductControllerTest {
     private WebApplicationContext context;
 
     @MockBean
-    private ProductService productService;
+    private GetProductService getProductService;
 
     @Test
     void list() throws Exception {
         Product product = new Product(
-                1L, "초콜릿", "Jocker", 10_000L, "yammy chocolate"
+                1L, "초콜릿", "Jocker", 10_000L, "yammy chocolate", "1"
         );
 
-        given(productService.list()).willReturn(
-                List.of(product)
+        Page<Product> products = new PageImpl<>(List.of(product));
+
+        given(getProductService.list(1)).willReturn(
+                products
         );
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products"))
