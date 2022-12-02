@@ -3,6 +3,7 @@ package com.ahastudio.makaoGift.backdoor;
 import com.ahastudio.makaoGift.dtos.ProductsDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +18,11 @@ import javax.transaction.Transactional;
 @RequestMapping("backdoor")
 public class BackdoorController {
     private final JdbcTemplate jdbcTemplate;
+    private PasswordEncoder passwordEncoder;
 
-    public BackdoorController(JdbcTemplate jdbcTemplate) {
+    public BackdoorController(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder) {
         this.jdbcTemplate = jdbcTemplate;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("setup-products")
@@ -42,13 +45,37 @@ public class BackdoorController {
         return "OK";
     }
 
+    @PostMapping("setup-user")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String setupUser() {
+        jdbcTemplate.execute("DELETE FROM member");
+
+        jdbcTemplate.update("" +
+                "INSERT INTO member(" +
+                " id, member_name, encoded_password, name, amount" +
+                ")" +
+                " VALUES(1, ?, ?, ?, ?)",
+                "ashal1234", passwordEncoder.encode("Password1234!"), "김이박최아샬", 50_000
+        );
+
+        jdbcTemplate.update("" +
+                        "INSERT INTO member(" +
+                        " id, member_name, encoded_password, name, amount" +
+                        ")" +
+                        " VALUES(2, ?, ?, ?, ?)",
+                "jocker1234", passwordEncoder.encode("Password1234!"), "김조커", 100_000
+        );
+
+        return "Ok";
+    }
+
     @DeleteMapping("setup-products")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String clear(
-
-    ) {
+    public String clear() {
         jdbcTemplate.execute("DELETE FROM product");
 
         return "OK";
     }
+
+
 }

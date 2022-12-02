@@ -6,11 +6,11 @@ public class ProductsDto {
     private List<ProductDto> products;
     private PageDto page;
 
-    public ProductsDto(List<ProductDto> productDtos) {
-        this.products = productDtos;
+    public ProductsDto() {
     }
 
-    public ProductsDto() {
+    public ProductsDto(List<ProductDto> productDtos) {
+        this.products = productDtos;
     }
 
     public void setPage(PageDto pageDto) {

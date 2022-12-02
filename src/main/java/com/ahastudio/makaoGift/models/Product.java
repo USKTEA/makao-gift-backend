@@ -28,30 +28,7 @@ public class Product {
         this.description = description;
         this.imageUrl = imageUrl;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
+    
     public ProductDto toDto() {
         return new ProductDto(id, name, manufacturer, price, description, imageUrl);
     }
