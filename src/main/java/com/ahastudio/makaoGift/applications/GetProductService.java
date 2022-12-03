@@ -1,5 +1,6 @@
 package com.ahastudio.makaoGift.applications;
 
+import com.ahastudio.makaoGift.exceptions.MemberNotFound;
 import com.ahastudio.makaoGift.models.Product;
 import com.ahastudio.makaoGift.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -26,5 +27,12 @@ public class GetProductService {
         Page<Product> products = productRepository.findAll(pageable);
 
         return products;
+    }
+
+    public Product product(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new MemberNotFound());
+
+        return product;
     }
 }

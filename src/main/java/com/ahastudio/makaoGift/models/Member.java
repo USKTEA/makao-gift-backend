@@ -53,6 +53,6 @@ public class Member {
     }
 
     public MemberDto toDto() {
-        return new MemberDto(name, amount);
+        return new MemberDto(memberName, name, amount);
     }
 }
