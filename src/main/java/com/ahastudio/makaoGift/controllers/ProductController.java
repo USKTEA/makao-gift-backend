@@ -2,10 +2,12 @@ package com.ahastudio.makaoGift.controllers;
 
 import com.ahastudio.makaoGift.applications.GetProductService;
 import com.ahastudio.makaoGift.dtos.PageDto;
+import com.ahastudio.makaoGift.dtos.ProductDto;
 import com.ahastudio.makaoGift.dtos.ProductsDto;
 import com.ahastudio.makaoGift.models.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +40,14 @@ public class ProductController {
         products.setPage(pageDto);
 
         return products;
+    }
+
+    @GetMapping("{id}")
+    public ProductDto product(
+            @PathVariable Long id
+    ) {
+        Product product = getProductService.product(id);
+
+        return product.toDto();
     }
 }

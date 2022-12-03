@@ -29,9 +29,6 @@ class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext context;
-
     @MockBean
     private GetProductService getProductService;
 
@@ -51,6 +48,18 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"products\":[")
+                ));
+    }
+
+    @Test
+    void product() throws Exception {
+        given(getProductService.product(1L))
+                .willReturn(Product.fake(1L));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        containsString("\"id\":1")
                 ));
     }
 }

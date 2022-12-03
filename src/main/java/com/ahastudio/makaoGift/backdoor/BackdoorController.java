@@ -1,13 +1,16 @@
 package com.ahastudio.makaoGift.backdoor;
 
+import com.ahastudio.makaoGift.dtos.ProductDto;
 import com.ahastudio.makaoGift.dtos.ProductsDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +48,24 @@ public class BackdoorController {
         return "OK";
     }
 
+    @PostMapping("setup-product")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String setupProduct(
+            @RequestBody ProductDto productDto
+    ) {
+        jdbcTemplate.execute("DELETE FROM product");
+
+        jdbcTemplate.update("" +
+                        "INSERT INTO product(" +
+                        "id, name, manufacturer, price, description, image_url" +
+                        ")" +
+                        " VALUES(?, ?, ?, ?, ?, ?)",
+                productDto.getId(), productDto.getName(), productDto.getManufacturer(),
+                productDto.getPrice(), productDto.getDescription(), productDto.getImageUrl());
+
+        return "Ok";
+    }
+
     @PostMapping("setup-user")
     @ResponseStatus(HttpStatus.CREATED)
     public String setupUser() {
@@ -77,5 +98,15 @@ public class BackdoorController {
         return "OK";
     }
 
+    @GetMapping("change-amount")
+    public String changeAmount(
+            @RequestParam Long memberId,
+            @RequestParam Long amount
+    ) {
+        jdbcTemplate.update("UPDATE member SET amount=? WHERE id=?",
+                amount, memberId);
 
+        System.out.println(amount);
+        return "OK";
+    }
 }
