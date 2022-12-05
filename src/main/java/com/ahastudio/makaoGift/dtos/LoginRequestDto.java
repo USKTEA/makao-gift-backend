@@ -7,11 +7,6 @@ public class LoginRequestDto {
     public LoginRequestDto() {
     }
 
-    public LoginRequestDto(String memberName, String password) {
-        this.memberName = memberName;
-        this.password = password;
-    }
-
     public String getMemberName() {
         return memberName;
     }

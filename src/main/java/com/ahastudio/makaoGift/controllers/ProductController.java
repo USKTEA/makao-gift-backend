@@ -17,17 +17,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("products")
 public class ProductController {
-
-    private GetProductService getProductService;
+    private final GetProductService getProductService;
 
     public ProductController(GetProductService getProductService) {
         this.getProductService = getProductService;
     }
 
     @GetMapping
-    public ProductsDto list(
-            @RequestParam(required = false, defaultValue = "1") Integer page
-    ) {
+    public ProductsDto list(@RequestParam(required = false, defaultValue = "1") Integer page) {
         Page<Product> found = getProductService.list(page);
 
         ProductsDto products = new ProductsDto(
@@ -43,9 +40,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ProductDto product(
-            @PathVariable Long id
-    ) {
+    public ProductDto product(@PathVariable Long id) {
         Product product = getProductService.product(id);
 
         return product.toDto();

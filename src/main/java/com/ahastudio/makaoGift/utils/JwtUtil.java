@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JwtUtil {
-    private Algorithm algorithm;
+    private final Algorithm algorithm;
 
     public JwtUtil(String secret) {
         this.algorithm = Algorithm.HMAC256(secret);

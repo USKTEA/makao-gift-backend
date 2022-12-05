@@ -21,7 +21,7 @@ import javax.transaction.Transactional;
 @RequestMapping("backdoor")
 public class BackdoorController {
     private final JdbcTemplate jdbcTemplate;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public BackdoorController(JdbcTemplate jdbcTemplate, PasswordEncoder passwordEncoder) {
         this.jdbcTemplate = jdbcTemplate;
@@ -72,10 +72,10 @@ public class BackdoorController {
         jdbcTemplate.execute("DELETE FROM member");
 
         jdbcTemplate.update("" +
-                "INSERT INTO member(" +
-                " id, member_name, encoded_password, name, amount" +
-                ")" +
-                " VALUES(1, ?, ?, ?, ?)",
+                        "INSERT INTO member(" +
+                        " id, member_name, encoded_password, name, amount" +
+                        ")" +
+                        " VALUES(1, ?, ?, ?, ?)",
                 "ashal1234", passwordEncoder.encode("Password1234!"), "김이박최아샬", 50_000
         );
 
@@ -106,7 +106,6 @@ public class BackdoorController {
         jdbcTemplate.update("UPDATE member SET amount=? WHERE id=?",
                 amount, memberId);
 
-        System.out.println(amount);
         return "OK";
     }
 }

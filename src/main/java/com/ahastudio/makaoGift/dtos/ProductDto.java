@@ -47,4 +47,8 @@ public class ProductDto {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public void setNameBlank() {
+        this.name = "";
+    }
 }
