@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class GetProductService {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public GetProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;

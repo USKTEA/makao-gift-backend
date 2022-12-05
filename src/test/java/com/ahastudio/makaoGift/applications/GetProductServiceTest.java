@@ -7,16 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -45,7 +42,7 @@ class GetProductServiceTest {
     @Test
     void list() {
         Product product = new Product(
-                1L, "초콜릿", "Jocker", 10_000L, "yammy chocolate" ,"1"
+                1L, "초콜릿", "Jocker", 10_000L, "yammy chocolate", "1"
         );
 
         Page<Product> page = new PageImpl<>(List.of(product));
