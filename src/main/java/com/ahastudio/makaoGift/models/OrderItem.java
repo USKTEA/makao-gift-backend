@@ -1,5 +1,6 @@
 package com.ahastudio.makaoGift.models;
 
+import com.ahastudio.makaoGift.dtos.OrderItemDto;
 import com.ahastudio.makaoGift.dtos.ProductDto;
 import com.ahastudio.makaoGift.exceptions.OrderItemError;
 
@@ -21,7 +22,8 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public OrderItem(Long id, String name, String manufacturer, Long price, String description, String imageUrl) {
+    public OrderItem(Long id, String name, String manufacturer,
+                     Long price, String description, String imageUrl) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;
@@ -71,5 +73,9 @@ public class OrderItem {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public OrderItemDto toDto() {
+        return new OrderItemDto(id, name, manufacturer, price, description, imageUrl);
     }
 }

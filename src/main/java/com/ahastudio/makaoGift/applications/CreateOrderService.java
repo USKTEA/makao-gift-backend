@@ -19,6 +19,7 @@ import com.ahastudio.makaoGift.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -57,7 +58,8 @@ public class CreateOrderService {
 
         Order saved = orderRepository.save(order);
 
-        Member member = memberRepository.findByMemberName(buyer.name()).orElseThrow(() -> new MemberNotFound());
+        Member member = memberRepository.findByMemberName(buyer.name())
+                .orElseThrow(() -> new MemberNotFound());
 
         member.order(saved);
 

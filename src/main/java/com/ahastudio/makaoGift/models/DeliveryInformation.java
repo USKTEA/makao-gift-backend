@@ -23,4 +23,8 @@ public class DeliveryInformation {
         this.address = deliveryInformationDto.getAddress();
         this.message = deliveryInformationDto.getMessage();
     }
+
+    public DeliveryInformationDto toDto() {
+        return new DeliveryInformationDto(recipient, address, message);
+    }
 }

@@ -25,4 +25,8 @@ public class Cost {
     public Long amount() {
         return value;
     }
+
+    public Long value() {
+        return value;
+    }
 }

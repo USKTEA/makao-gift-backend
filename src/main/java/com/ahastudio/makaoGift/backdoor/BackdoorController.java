@@ -90,10 +90,11 @@ public class BackdoorController {
         return "Ok";
     }
 
-    @DeleteMapping("setup-products")
+    @DeleteMapping("clear-database")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String clear() {
         jdbcTemplate.execute("DELETE FROM product");
+        jdbcTemplate.execute("DELETE FROM transaction");
 
         return "OK";
     }

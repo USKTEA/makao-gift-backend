@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 class OrderItemTest {
-    Long id;
-    String name;
-    String manufacturer;
-    Long price;
-    String description;
-    String imageUrl;
+    private Long id;
+    private String name;
+    private String manufacturer;
+    private Long price;
+    private String description;
+    private String imageUrl;
 
     @BeforeEach
     void setup() {

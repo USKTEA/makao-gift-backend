@@ -21,8 +21,8 @@ import static org.mockito.Mockito.mock;
 
 @ActiveProfiles("test")
 class GetProductServiceTest {
-    ProductRepository productRepository;
-    GetProductService getProductService;
+    private ProductRepository productRepository;
+    private GetProductService getProductService;
 
     @BeforeEach
     void setUp() {

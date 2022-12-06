@@ -22,4 +22,7 @@ public class Quantity {
         this.value = value;
     }
 
+    public Long value() {
+        return value;
+    }
 }
