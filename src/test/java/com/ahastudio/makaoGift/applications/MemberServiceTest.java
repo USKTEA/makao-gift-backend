@@ -16,8 +16,8 @@ import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
 class MemberServiceTest {
-    MemberRepository memberRepository;
-    MemberService memberService;
+    private MemberRepository memberRepository;
+    private MemberService memberService;
 
     @BeforeEach
     void setup() {

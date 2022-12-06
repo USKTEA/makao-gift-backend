@@ -1,5 +1,6 @@
 package com.ahastudio.makaoGift.models;
 
+import com.ahastudio.makaoGift.dtos.OrderDto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -52,6 +53,11 @@ public class Order {
         this.id = id;
     }
 
+    public Order(Long id, Cost cost) {
+        this.id = id;
+        this.cost = cost;
+    }
+
     public Order(OrderNumber orderNumber,
                  Buyer buyer,
                  OrderItem orderItem,
@@ -66,21 +72,16 @@ public class Order {
         this.deliveryInformation = deliveryInformation;
     }
 
-    public Order(Long id, Cost cost) {
-        this.id = id;
-        this.cost = cost;
-    }
-
-    public static Order fake(OrderNumber orderNumber) {
-        return new Order(orderNumber);
-    }
-
     public OrderNumber orderNumber() {
         return orderNumber;
     }
 
     public Long id() {
         return id;
+    }
+
+    public Long cost() {
+        return cost.amount();
     }
 
     public Order of(OrderNumber orderNumber,
@@ -92,7 +93,43 @@ public class Order {
         return new Order(orderNumber, buyer, orderItem, quantity, cost, deliveryInformation);
     }
 
-    public Long cost() {
-        return cost.amount();
+    public static Order fake(OrderNumber orderNumber) {
+        return new Order(orderNumber);
+    }
+
+    public OrderDto toDto() {
+        return new OrderDto(id,
+                orderItem.toDto(),
+                quantity.value(),
+                cost.value(),
+                deliveryInformation.toDto(),
+                createdAt
+                );
     }
 }
+
+//private Long id;
+//
+//    @Embedded
+//    private OrderNumber orderNumber;
+//
+//    @Embedded
+//    private Buyer buyer;
+//
+//    @Embedded
+//    private OrderItem orderItem;
+//
+//    @Embedded
+//    private Quantity quantity;
+//
+//    @Embedded
+//    private Cost cost;
+//
+//    @Embedded
+//    private DeliveryInformation deliveryInformation;
+//
+//    @CreationTimestamp
+//    private LocalDateTime createdAt;
+//
+//    @UpdateTimestamp
+//    private LocalDateTime updatedAt;

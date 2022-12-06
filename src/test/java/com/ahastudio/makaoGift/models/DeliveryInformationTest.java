@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 class DeliveryInformationTest {
-    String recipient = "tester";
-    String address = "testAddress";
-    String message = "test message";
+    private String recipient = "tester";
+    private String address = "testAddress";
+    private String message = "test message";
 
     @Test
     void creation() {
