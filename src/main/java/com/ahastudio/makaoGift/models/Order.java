@@ -107,29 +107,3 @@ public class Order {
                 );
     }
 }
-
-//private Long id;
-//
-//    @Embedded
-//    private OrderNumber orderNumber;
-//
-//    @Embedded
-//    private Buyer buyer;
-//
-//    @Embedded
-//    private OrderItem orderItem;
-//
-//    @Embedded
-//    private Quantity quantity;
-//
-//    @Embedded
-//    private Cost cost;
-//
-//    @Embedded
-//    private DeliveryInformation deliveryInformation;
-//
-//    @CreationTimestamp
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt;
