@@ -35,20 +35,19 @@ public class CreateOrderService {
 
     public Order create(OrderRequestDto orderRequestDto) {
         OrderNumber orderNumber = new OrderNumber(orderRequestDto.getOrderNumber());
+        SpecificationDto specificationDto = orderRequestDto.getSpecification();
+        Buyer buyer = new Buyer(specificationDto.getBuyer());
 
         Order order = orderRepository.findByOrderNumber(orderNumber).orElse(new Order());
 
-        if (Objects.equals(order.orderNumber(), orderNumber)) {
+        if (order.isDuplicated(orderNumber, buyer)) {
             throw new OrderAlreadyExists();
         }
-
-        SpecificationDto specificationDto = orderRequestDto.getSpecification();
 
         ProductDto productDto = specificationDto.getProduct();
 
         DeliveryInformationDto deliveryInformationDto = specificationDto.getDeliveryInformation();
 
-        Buyer buyer = new Buyer(specificationDto.getBuyer());
         OrderItem orderItem = new OrderItem(productDto);
         Quantity quantity = new Quantity(specificationDto.getQuantity());
         Cost cost = new Cost(specificationDto.getCost());
@@ -59,7 +58,7 @@ public class CreateOrderService {
         Order saved = orderRepository.save(order);
 
         Member member = memberRepository.findByMemberName(buyer.name())
-                .orElseThrow(() -> new MemberNotFound());
+                .orElseThrow(MemberNotFound::new);
 
         member.order(saved);
 

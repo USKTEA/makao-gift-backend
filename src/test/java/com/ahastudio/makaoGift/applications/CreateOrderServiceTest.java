@@ -1,6 +1,7 @@
 package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.dtos.OrderRequestDto;
+import com.ahastudio.makaoGift.dtos.SpecificationDto;
 import com.ahastudio.makaoGift.exceptions.OrderAlreadyExists;
 import com.ahastudio.makaoGift.models.Buyer;
 import com.ahastudio.makaoGift.models.Cost;
@@ -67,9 +68,12 @@ class CreateOrderServiceTest {
     @Test
     void whenOrderIsAlreadyExists() {
         OrderNumber orderNumber = new OrderNumber("test");
-        OrderRequestDto orderRequestDto = new OrderRequestDto(orderNumber.value());
+        OrderRequestDto orderRequestDto = OrderRequestDto.fake(orderNumber);
+        SpecificationDto specificationDto = orderRequestDto.getSpecification();
 
-        Order order = Order.fake(orderNumber);
+        Buyer buyer = new Buyer(specificationDto.getBuyer());
+
+        Order order = Order.fake(orderNumber, buyer);
 
         given(orderRepository.findByOrderNumber(orderNumber))
                 .willReturn(Optional.of(order));

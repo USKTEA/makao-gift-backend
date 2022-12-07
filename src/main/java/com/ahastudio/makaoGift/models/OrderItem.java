@@ -78,4 +78,8 @@ public class OrderItem {
     public OrderItemDto toDto() {
         return new OrderItemDto(id, name, manufacturer, price, description, imageUrl);
     }
+
+    public static OrderItem fake() {
+        return new OrderItem(1L, "fakeItem", "fakeManufacturer", 100L, "fake", "fake");
+    }
 }

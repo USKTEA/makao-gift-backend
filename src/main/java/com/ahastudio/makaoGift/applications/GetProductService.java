@@ -31,7 +31,7 @@ public class GetProductService {
 
     public Product product(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new MemberNotFound());
+                .orElseThrow(MemberNotFound::new);
 
         return product;
     }
