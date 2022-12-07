@@ -18,7 +18,7 @@ public class LoginService {
 
     public Member login(String memberName, String password) {
         Member member = memberRepository.findByMemberName(memberName)
-                .orElseThrow(() -> new LoginFailed());
+                .orElseThrow(LoginFailed::new);
 
         if (!member.authenticate(password, passwordEncoder)) {
             throw new LoginFailed();

@@ -16,9 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,7 +28,6 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -158,17 +154,39 @@ class OrderControllerTest {
     void list() throws Exception {
         Order order = mock(Order.class);
 
-        given(orderRepository.findByBuyer(any(),any()))
+        given(orderRepository.findByBuyer(any(), any()))
                 .willReturn(new PageImpl<>(List.of(order)));
 
         String memberName = "ashal1234";
         String token = jwtUtil.encode(memberName);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(content().string(
+                        containsString("\"orders\":[")
+                ));
+    }
+
+    @Test
+    void whenMemberRequestHisOwnOrder() throws Exception {
+        Long id = 1L;
+        String memberName = "ashal1234";
+
+        Buyer buyer = new Buyer("ashal1234");
+
+        Order order = Order.fake(id, buyer);
+
+        String token = jwtUtil.encode(memberName);
+
+        given(orderRepository.findById(any()))
+                .willReturn(Optional.of(order));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders/" + id)
                 .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
-                        containsString("\"orders\":[" )
+                        containsString("\"id\":" + id)
                 ));
     }
 }

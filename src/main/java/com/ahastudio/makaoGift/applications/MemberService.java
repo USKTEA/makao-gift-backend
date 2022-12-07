@@ -14,9 +14,8 @@ public class MemberService {
     }
 
     public Member detail(String memberName) {
-        Member member = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new MemberNotFound()
-        );
+        Member member = memberRepository.findByMemberName(memberName)
+                .orElseThrow(MemberNotFound::new);
 
         return member;
     }

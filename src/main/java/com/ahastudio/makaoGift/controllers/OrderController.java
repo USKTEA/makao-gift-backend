@@ -7,6 +7,7 @@ import com.ahastudio.makaoGift.dtos.OrderRequestDto;
 import com.ahastudio.makaoGift.dtos.OrderResultDto;
 import com.ahastudio.makaoGift.dtos.OrdersDto;
 import com.ahastudio.makaoGift.dtos.PageDto;
+import com.ahastudio.makaoGift.exceptions.OrderCreateFailed;
 import com.ahastudio.makaoGift.exceptions.OrderRequestFailed;
 import com.ahastudio.makaoGift.models.Order;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,7 +41,7 @@ public class OrderController {
     @GetMapping
     public OrdersDto list(
             @RequestAttribute String memberName,
-            @RequestParam(required = false, defaultValue = "1" ) Integer page
+            @RequestParam(required = false, defaultValue = "1") Integer page
     ) {
         Page<Order> found = getOrderService.list(memberName, page);
 
@@ -57,9 +58,19 @@ public class OrderController {
         return orders;
     }
 
+    @GetMapping("{id}")
+    public OrderDto order(
+            @RequestAttribute("memberName") String memberName,
+            @PathVariable Long id
+    ) {
+        Order order = getOrderService.order(memberName, id);
+
+        return order.toDto();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderResultDto order(
+    public OrderResultDto create(
             @Valid @RequestBody OrderRequestDto orderRequestDto
     ) {
         Order order = createOrderService.create(orderRequestDto);
@@ -75,7 +86,13 @@ public class OrderController {
 
     @ExceptionHandler(OrderRequestFailed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String requestOrderFail(Exception exception) {
+    public String invalidOrderRequest() {
+        return "잘못된 요청입니다";
+    }
+
+    @ExceptionHandler(OrderCreateFailed.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String orderCreateFail(Exception exception) {
         return exception.getMessage();
     }
 }

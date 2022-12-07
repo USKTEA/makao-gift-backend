@@ -1,5 +1,6 @@
 package com.ahastudio.makaoGift.applications;
 
+import com.ahastudio.makaoGift.exceptions.OrderRequestFailed;
 import com.ahastudio.makaoGift.models.Buyer;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.repositories.OrderRepository;
@@ -28,5 +29,14 @@ public class GetOrderService {
         Page<Order> orders = orderRepository.findByBuyer(buyer, pageable);
 
         return orders;
+    }
+
+    public Order order(String memberName, Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(OrderRequestFailed::new);
+
+        order.checkIsOwnBuy(memberName);
+
+        return order;
     }
 }

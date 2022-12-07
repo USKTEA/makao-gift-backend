@@ -24,7 +24,17 @@ public class DeliveryInformation {
         this.message = deliveryInformationDto.getMessage();
     }
 
+    public DeliveryInformation(String recipient, String address, String message) {
+        this.recipient = recipient;
+        this.address = address;
+        this.message = message;
+    }
+
     public DeliveryInformationDto toDto() {
         return new DeliveryInformationDto(recipient, address, message);
+    }
+
+    public static DeliveryInformation fake() {
+        return new DeliveryInformation("fake recipient", "fake address", "fake message");
     }
 }
