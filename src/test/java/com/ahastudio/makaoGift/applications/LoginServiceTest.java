@@ -1,5 +1,6 @@
 package com.ahastudio.makaoGift.applications;
 
+import com.ahastudio.makaoGift.dtos.LoginRequestDto;
 import com.ahastudio.makaoGift.exceptions.LoginFailed;
 import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.repositories.MemberRepository;

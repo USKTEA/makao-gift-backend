@@ -58,7 +58,7 @@ class OrderControllerTest {
         OrderNumber orderNumber = new OrderNumber("test");
         Buyer buyer = new Buyer("tester");
         Cost cost = new Cost(100L);
-        Member member = new Member(buyer.name(), "Ashal", 50_000L);
+        Member member = new Member(1L, buyer.name(), "Ashal", 50_000L);
 
         given(orderRepository.findByOrderNumber(orderNumber)).willReturn(
                 Optional.of(new Order())

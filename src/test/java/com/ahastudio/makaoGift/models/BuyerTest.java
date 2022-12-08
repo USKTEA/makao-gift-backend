@@ -1,6 +1,6 @@
 package com.ahastudio.makaoGift.models;
 
-import com.ahastudio.makaoGift.exceptions.BuyerDoestNotExists;
+import com.ahastudio.makaoGift.exceptions.BuyerDoesNotExists;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -14,14 +14,14 @@ class BuyerTest {
     @Test
     void creation() {
         assertDoesNotThrow(() -> {
-            Buyer buyer = new Buyer("ashal1234");
+            new Buyer("ashal1234");
         });
     }
 
     @Test
     void whenThereIsNoBuyerValue() {
-        assertThrows(BuyerDoestNotExists.class, () -> {
-            Buyer buyer = new Buyer("");
+        assertThrows(BuyerDoesNotExists.class, () -> {
+            new Buyer("");
         });
     }
 

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,27 +16,41 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
-class MemberServiceTest {
+class GetMemberServiceTest {
     private MemberRepository memberRepository;
-    private MemberService memberService;
+    private GetMemberService getMemberService;
 
     @BeforeEach
     void setup() {
         memberRepository = mock(MemberRepository.class);
-        memberService = new MemberService(memberRepository);
+        getMemberService = new GetMemberService(memberRepository);
 
         given(memberRepository.findByMemberName(any()))
                 .willReturn(Optional.of(Member.fake("ashal1234")));
+
+        given(memberRepository.findAllByMemberName(any()))
+                .willReturn(List.of(new Member()));
     }
 
     @Test
     void member() {
         String memberName = "ashal1234";
 
-        Member member = memberService.detail(memberName);
+        Member member = getMemberService.detail(memberName);
 
         verify(memberRepository).findByMemberName(memberName);
 
         assertThat(member.memberName()).isEqualTo(memberName);
+    }
+
+    @Test
+    void count() {
+        String memberName = "ashal1234";
+
+        Integer count = getMemberService.count(memberName);
+
+        verify(memberRepository).findAllByMemberName(memberName);
+
+        assertThat(count).isEqualTo(1);
     }
 }

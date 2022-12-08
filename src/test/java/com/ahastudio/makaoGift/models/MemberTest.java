@@ -31,7 +31,7 @@ class MemberTest {
         Long id = 1L;
         Cost cost = new Cost(1000L);
 
-        Member member = new Member("ashal1234", "Ashal", amount);
+        Member member = new Member(1L, "ashal1234", "Ashal", amount);
 
         Order order = new Order(id, cost);
 
@@ -47,12 +47,22 @@ class MemberTest {
         Long id = 1L;
         Cost cost = new Cost(1000L);
 
-        Member member = new Member("ashal1234", "Ashal", amount);
+        Member member = new Member(1L, "ashal1234", "Ashal", amount);
 
         Order order = new Order(id, cost);
 
         assertThrows(AmountNotEnough.class, () -> {
             member.order(order);
         });
+    }
+
+    @Test
+    void checkDuplicated() {
+        String memberName = "ashal1234";
+
+        Member member1 = Member.fake(memberName);
+        Member member2 = Member.fake(memberName);
+
+        assertThat(member2.isDuplicated(member1.memberName())).isTrue();
     }
 }

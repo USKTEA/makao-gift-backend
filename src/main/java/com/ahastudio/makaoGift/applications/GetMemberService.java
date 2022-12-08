@@ -5,11 +5,13 @@ import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class MemberService {
+public class GetMemberService {
     private final MemberRepository memberRepository;
 
-    public MemberService(MemberRepository memberRepository) {
+    public GetMemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
@@ -18,5 +20,11 @@ public class MemberService {
                 .orElseThrow(MemberNotFound::new);
 
         return member;
+    }
+
+    public Integer count(String memberName) {
+        List<Member> members = memberRepository.findAllByMemberName(memberName);
+
+        return members.size();
     }
 }
