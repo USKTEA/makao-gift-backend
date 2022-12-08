@@ -69,6 +69,7 @@ public class BackdoorController {
     @PostMapping("setup-user")
     @ResponseStatus(HttpStatus.CREATED)
     public String setupUser() {
+        jdbcTemplate.execute("DELETE FROM member_orders");
         jdbcTemplate.execute("DELETE FROM member");
 
         jdbcTemplate.update("" +
@@ -95,6 +96,8 @@ public class BackdoorController {
     public String clear() {
         jdbcTemplate.execute("DELETE FROM product");
         jdbcTemplate.execute("DELETE FROM transaction");
+        jdbcTemplate.execute("DELETE FROM member_orders");
+        jdbcTemplate.execute("DELETE FROM member");
 
         return "OK";
     }

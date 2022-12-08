@@ -19,7 +19,7 @@ class DeliveryInformationTest {
         DeliveryInformationDto deliveryInformationDto = new DeliveryInformationDto(recipient, address, message);
 
         assertDoesNotThrow(() -> {
-            DeliveryInformation deliveryInformation = new DeliveryInformation(deliveryInformationDto);
+            new DeliveryInformation(deliveryInformationDto);
         });
     }
 
@@ -28,7 +28,7 @@ class DeliveryInformationTest {
         DeliveryInformationDto deliveryInformationDto = new DeliveryInformationDto("", address, message);
 
         assertThrows(InvalidDeliveryInformation.class, () -> {
-            DeliveryInformation deliveryInformation = new DeliveryInformation(deliveryInformationDto);
+            new DeliveryInformation(deliveryInformationDto);
         });
     }
 
@@ -37,7 +37,7 @@ class DeliveryInformationTest {
         DeliveryInformationDto deliveryInformationDto = new DeliveryInformationDto(recipient, "", message);
 
         assertThrows(InvalidDeliveryInformation.class, () -> {
-            DeliveryInformation deliveryInformation = new DeliveryInformation(deliveryInformationDto);
+            new DeliveryInformation(deliveryInformationDto);
         });
     }
 

@@ -10,15 +10,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Member {
     @Id
     @GeneratedValue
     private Long id;
+    private String name;
     private String memberName;
     private String encodedPassword;
-    private String name;
     private Long amount;
 
     @ElementCollection
@@ -27,11 +28,21 @@ public class Member {
     public Member() {
     }
 
-    public Member(String memberName, String name, Long amount) {
-        this.memberName = memberName;
+    public Member(Long id, String memberName, String name, Long amount) {
+        this.id = id;
         this.name = name;
+        this.memberName = memberName;
         this.amount = amount;
         this.orders = new ArrayList<>();
+    }
+
+    public Member(String name, String memberName) {
+        this.name = name;
+        this.memberName = memberName;
+    }
+
+    public static Member fake(String memberName) {
+        return new Member(1L, memberName, "김이박최아샬", 50000L);
     }
 
     public void order(Order order) {
@@ -52,12 +63,20 @@ public class Member {
         encodedPassword = passwordEncoder.encode(password);
     }
 
-    public String memberName() {
-        return memberName;
+    public Long id() {
+        return this.id;
     }
 
     public String name() {
         return name;
+    }
+
+    public String memberName() {
+        return memberName;
+    }
+
+    public String encodedPassword() {
+        return this.encodedPassword;
     }
 
     public Long amount() {
@@ -72,7 +91,19 @@ public class Member {
         return new MemberDto(memberName, name, amount);
     }
 
-    public static Member fake(String memberName) {
-        return new Member(memberName, "김이박최아샬", 50000L);
+    public boolean isDuplicated(String memberName) {
+        if (Objects.equals(this.memberName, memberName)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Member of(String name, String memberName) {
+        return new Member(name, memberName);
+    }
+
+    public void increaseAmount(Long amount) {
+        this.amount = amount;
     }
 }

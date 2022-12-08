@@ -13,7 +13,7 @@ class CostTest {
     @Test
     void creation() {
         assertDoesNotThrow(() -> {
-            Cost cost = new Cost(1L);
+            new Cost(1L);
 
         });
     }
@@ -21,7 +21,7 @@ class CostTest {
     @Test
     void whenThereIsNoValue() {
         assertThrows(InvalidOrderCost.class, () -> {
-            Cost cost = new Cost(null);
+            new Cost(null);
         });
     }
 }

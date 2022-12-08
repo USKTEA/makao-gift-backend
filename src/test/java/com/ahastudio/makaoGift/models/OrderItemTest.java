@@ -33,7 +33,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(id, name, manufacturer, price, description, imageUrl);
 
         assertDoesNotThrow(() -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 
@@ -42,7 +42,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(null, name, manufacturer, price, description, imageUrl);
 
         assertThrows(OrderItemError.class, () -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 
@@ -51,7 +51,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(id, "", manufacturer, price, description, imageUrl);
 
         assertThrows(OrderItemError.class, () -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 
@@ -60,7 +60,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(id, name, "", price, description, imageUrl);
 
         assertThrows(OrderItemError.class, () -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 
@@ -69,7 +69,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(id, name, manufacturer, null, description, imageUrl);
 
         assertThrows(OrderItemError.class, () -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 
@@ -78,7 +78,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(id, name, manufacturer, price, "", imageUrl);
 
         assertThrows(OrderItemError.class, () -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 
@@ -88,7 +88,7 @@ class OrderItemTest {
         ProductDto productDto = new ProductDto(id, name, manufacturer, price, description, "");
 
         assertThrows(OrderItemError.class, () -> {
-            OrderItem orderItem = new OrderItem(productDto);
+            new OrderItem(productDto);
         });
     }
 }

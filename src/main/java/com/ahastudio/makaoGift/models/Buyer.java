@@ -1,6 +1,6 @@
 package com.ahastudio.makaoGift.models;
 
-import com.ahastudio.makaoGift.exceptions.BuyerDoestNotExists;
+import com.ahastudio.makaoGift.exceptions.BuyerDoesNotExists;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,7 +14,7 @@ public class Buyer {
 
     public Buyer(String value) {
         if (value.isBlank()) {
-            throw new BuyerDoestNotExists();
+            throw new BuyerDoesNotExists();
         }
 
         this.value = value;

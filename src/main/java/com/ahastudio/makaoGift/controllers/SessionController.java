@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("session")
 public class SessionController {
@@ -28,7 +30,7 @@ public class SessionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public LoginResultDto login(
-            @RequestBody LoginRequestDto loginRequestDto
+            @Valid @RequestBody LoginRequestDto loginRequestDto
     ) {
         String memberName = loginRequestDto.getMemberName();
         String password = loginRequestDto.getPassword();
@@ -46,7 +48,7 @@ public class SessionController {
 
     @ExceptionHandler(LoginFailed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String loginFailed() {
-        return "Login Failed";
+    public String loginFailed(Exception exception) {
+        return exception.getMessage();
     }
 }

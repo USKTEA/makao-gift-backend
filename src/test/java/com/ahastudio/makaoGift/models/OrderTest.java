@@ -46,5 +46,4 @@ class OrderTest {
             order.checkIsOwnBuy(memberName);
         });
     }
-
 }

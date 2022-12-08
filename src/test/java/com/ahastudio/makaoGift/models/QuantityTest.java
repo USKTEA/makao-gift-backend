@@ -13,14 +13,14 @@ class QuantityTest {
     @Test
     void creation() {
         assertDoesNotThrow(() -> {
-            Quantity quantity = new Quantity(1L);
+            new Quantity(1L);
         });
     }
 
     @Test
     void createWithoutValue() {
         assertThrows(InvalidOrderQuantity.class, () -> {
-            Quantity quantity = new Quantity(null);
+            new Quantity(null);
         });
     }
 }

@@ -20,7 +20,7 @@ class OrderNumberTest {
     @Test
     void whenThereIsNoOrderNumberValue() {
         assertThrows(OrderNumberNotExist.class, () -> {
-            OrderNumber orderNumber = new OrderNumber("");
+            new OrderNumber("");
         });
     }
 
