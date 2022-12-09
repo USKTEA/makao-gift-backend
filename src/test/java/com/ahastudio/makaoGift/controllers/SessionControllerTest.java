@@ -24,9 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class SessionControllerTest {
 
-    MemberName memberName;
-    Password password;
-    Password wrongPassword;
+    private MemberName memberName;
+    private Password password;
+    private Password wrongPassword;
 
     @Autowired
     private MockMvc mockMvc;

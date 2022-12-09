@@ -2,7 +2,6 @@ package com.ahastudio.makaoGift.models;
 
 import com.ahastudio.makaoGift.exceptions.IncorrectSignUpPassword;
 import com.ahastudio.makaoGift.exceptions.MatchPasswordFailed;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -41,12 +40,12 @@ public class Password {
         }
     }
 
-    public String number() {
-        return number;
-    }
-
     public Password encode() {
         return new Password(passwordEncoder.encode(number));
+    }
+
+    public String number() {
+        return number;
     }
 
     @Override

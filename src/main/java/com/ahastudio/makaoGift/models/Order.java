@@ -88,24 +88,6 @@ public class Order {
         this.deliveryInformation = deliveryInformation;
     }
 
-    public void checkIsOwnBuy(MemberName memberName) {
-        if (!Objects.equals(buyer.name(), memberName.value())) {
-            throw new OrderRequestFailed();
-        }
-    }
-
-    public OrderNumber orderNumber() {
-        return orderNumber;
-    }
-
-    public Long id() {
-        return id;
-    }
-
-    public Long cost() {
-        return cost.amount();
-    }
-
     public static Order fake(Long id, Buyer buyer) {
         return new Order(id, buyer, OrderItem.fake(), new Quantity(1L), new Cost(1L), DeliveryInformation.fake());
     }
@@ -125,6 +107,20 @@ public class Order {
                            Cost cost,
                            DeliveryInformation deliveryInformation) {
         return new Order(orderNumber, buyer, orderItem, quantity, cost, deliveryInformation);
+    }
+
+    public void checkIsOwnBuy(MemberName memberName) {
+        if (!Objects.equals(buyer.name(), memberName.value())) {
+            throw new OrderRequestFailed();
+        }
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public Long cost() {
+        return cost.amount();
     }
 
     public OrderDto toDto() {

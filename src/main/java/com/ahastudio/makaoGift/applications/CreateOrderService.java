@@ -2,7 +2,6 @@ package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.dtos.DeliveryInformationDto;
 import com.ahastudio.makaoGift.dtos.OrderRequestDto;
-import com.ahastudio.makaoGift.dtos.ProductDto;
 import com.ahastudio.makaoGift.dtos.SpecificationDto;
 import com.ahastudio.makaoGift.exceptions.MemberNotFound;
 import com.ahastudio.makaoGift.exceptions.OrderAlreadyExists;

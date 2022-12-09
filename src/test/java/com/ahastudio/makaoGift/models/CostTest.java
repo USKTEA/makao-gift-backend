@@ -14,7 +14,6 @@ class CostTest {
     void creation() {
         assertDoesNotThrow(() -> {
             new Cost(1L);
-
         });
     }
 

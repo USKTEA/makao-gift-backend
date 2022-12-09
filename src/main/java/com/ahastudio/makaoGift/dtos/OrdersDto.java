@@ -13,15 +13,15 @@ public class OrdersDto {
         this.orders = orders;
     }
 
-    public void setPage(PageDto page) {
-        this.page = page;
-    }
-
     public List<OrderDto> getOrders() {
         return orders;
     }
 
     public PageDto getPage() {
         return page;
+    }
+
+    public void setPage(PageDto page) {
+        this.page = page;
     }
 }

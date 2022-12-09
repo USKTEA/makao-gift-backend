@@ -49,6 +49,14 @@ public class Member {
         this.encodedPassword = password.encode();
     }
 
+    public static Member of(Name name, MemberName memberName, Password password) {
+        return new Member(name, memberName, password);
+    }
+
+    public static Member fake(MemberName memberName) {
+        return new Member(1L, memberName, new Name("김이박최아샬"), new Money(50000L));
+    }
+
     public void order(Order order) {
         this.amount = this.amount.decrease(new Money(order.cost()));
 
@@ -91,22 +99,12 @@ public class Member {
         return new MemberDto(memberName.value(), name.value(), amount.amount());
     }
 
-    public static Member of(Name name, MemberName memberName, Password password) {
-        return new Member(name, memberName, password);
-    }
-
-    public static Member fake(MemberName memberName) {
-        return new Member(1L, memberName, new Name("김이박최아샬"), new Money(50000L));
-    }
-
-
     @Override
     public boolean equals(Object other) {
         Member otherMember = (Member) other;
 
         return Objects.equals(this.id, otherMember.id)
                 && Objects.equals(this.memberName, otherMember.memberName);
-
     }
 
     @Override

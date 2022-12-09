@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("test")
 class JwtUtilTest {
     static final String secret = "SECRET";
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @BeforeEach
     void setup() {

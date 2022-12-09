@@ -9,7 +9,6 @@ import com.ahastudio.makaoGift.dtos.OrdersDto;
 import com.ahastudio.makaoGift.dtos.PageDto;
 import com.ahastudio.makaoGift.exceptions.OrderCreateFailed;
 import com.ahastudio.makaoGift.exceptions.OrderRequestFailed;
-import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.models.Order;
 import org.springframework.data.domain.Page;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 @RequestMapping("orders")
 public class OrderController {
     private final CreateOrderService createOrderService;
-    private GetOrderService getOrderService;
+    private final GetOrderService getOrderService;
 
     public OrderController(CreateOrderService createOrderService, GetOrderService getOrderService) {
         this.createOrderService = createOrderService;

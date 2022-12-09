@@ -13,15 +13,15 @@ public class ProductsDto {
         this.products = productDtos;
     }
 
-    public void setPage(PageDto pageDto) {
-        this.page = pageDto;
-    }
-
     public List<ProductDto> getProducts() {
         return products;
     }
 
     public PageDto getPage() {
         return page;
+    }
+
+    public void setPage(PageDto pageDto) {
+        this.page = pageDto;
     }
 }

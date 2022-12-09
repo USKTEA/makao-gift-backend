@@ -2,14 +2,11 @@ package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.dtos.SignUpRequestDto;
 import com.ahastudio.makaoGift.exceptions.SignUpFailed;
-import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;

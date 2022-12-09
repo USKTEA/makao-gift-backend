@@ -2,15 +2,12 @@ package com.ahastudio.makaoGift.controllers;
 
 import com.ahastudio.makaoGift.anotations.UtfEncoding;
 import com.ahastudio.makaoGift.applications.CreateMemberService;
-import com.ahastudio.makaoGift.applications.CreateOrderService;
 import com.ahastudio.makaoGift.applications.GetMemberService;
-import com.ahastudio.makaoGift.dtos.SignUpRequestDto;
 import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -97,9 +94,9 @@ class MemberControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/members")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
-                                "\"name\":\""+ name +"\"," +
-                                " \"memberName\":\""+ memberName.value() +"\"," +
-                                "\"password\":\""+ password +"\"" +
+                                "\"name\":\"" + name + "\"," +
+                                " \"memberName\":\"" + memberName.value() + "\"," +
+                                "\"password\":\"" + password + "\"" +
                                 "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(
@@ -115,9 +112,9 @@ class MemberControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/members")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
-                                "\"name\":\""+ name +"\"," +
-                                " \"memberName\":\""+ memberName.value() +"\"," +
-                                "\"password\":\""+ password +"\"" +
+                                "\"name\":\"" + name + "\"," +
+                                " \"memberName\":\"" + memberName.value() + "\"," +
+                                "\"password\":\"" + password + "\"" +
                                 "}"))
                 .andExpect(status().isBadRequest());
     }
@@ -131,9 +128,9 @@ class MemberControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/members")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
-                                "\"name\":\""+ name +"\"," +
-                                " \"memberName\":\""+ memberName +"\"," +
-                                "\"password\":\""+ password +"\"" +
+                                "\"name\":\"" + name + "\"," +
+                                " \"memberName\":\"" + memberName + "\"," +
+                                "\"password\":\"" + password + "\"" +
                                 "}"))
                 .andExpect(status().isBadRequest());
     }
@@ -147,9 +144,9 @@ class MemberControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/members")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
-                                "\"name\":\""+ name +"\"," +
-                                " \"memberName\":\""+ memberName +"\"," +
-                                "\"password\":\""+ password +"\"" +
+                                "\"name\":\"" + name + "\"," +
+                                " \"memberName\":\"" + memberName + "\"," +
+                                "\"password\":\"" + password + "\"" +
                                 "}"))
                 .andExpect(status().isBadRequest());
     }

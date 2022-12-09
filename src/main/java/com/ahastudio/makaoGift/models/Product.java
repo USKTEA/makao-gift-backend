@@ -30,6 +30,10 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public static Product fake(Long id) {
+        return new Product(id, "초콜릿", "Jocker", 10_000L, "yammy chocolate", "1");
+    }
+
     public ProductDto toDto() {
         return new ProductDto(id, name, manufacturer, price, description, imageUrl);
     }
@@ -52,9 +56,5 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, manufacturer, price, description, imageUrl);
-    }
-
-    public static Product fake(Long id) {
-        return new Product(id, "초콜릿", "Jocker", 10_000L, "yammy chocolate", "1");
     }
 }
