@@ -22,9 +22,9 @@ class OrderTest {
 
     @Test
     void whenIsOwnByRequestMember() {
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
 
-        Buyer buyer = new Buyer(memberName);
+        Buyer buyer = new Buyer(memberName.value());
 
         Order order = new Order(1L, buyer);
 
@@ -35,7 +35,8 @@ class OrderTest {
 
     @Test
     void whenIsNotOwnByRequestMember() {
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
+
         String otherMember = "notAshal1234";
 
         Buyer buyer = new Buyer(otherMember);

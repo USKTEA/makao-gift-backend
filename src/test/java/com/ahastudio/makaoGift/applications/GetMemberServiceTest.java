@@ -1,6 +1,7 @@
 package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,14 +20,17 @@ import static org.mockito.Mockito.verify;
 class GetMemberServiceTest {
     private MemberRepository memberRepository;
     private GetMemberService getMemberService;
+    private MemberName memberName;
 
     @BeforeEach
     void setup() {
+        memberName = new MemberName("ashal1234");
+
         memberRepository = mock(MemberRepository.class);
         getMemberService = new GetMemberService(memberRepository);
 
         given(memberRepository.findByMemberName(any()))
-                .willReturn(Optional.of(Member.fake("ashal1234")));
+                .willReturn(Optional.of(Member.fake(memberName)));
 
         given(memberRepository.findAllByMemberName(any()))
                 .willReturn(List.of(new Member()));
@@ -34,8 +38,6 @@ class GetMemberServiceTest {
 
     @Test
     void member() {
-        String memberName = "ashal1234";
-
         Member member = getMemberService.detail(memberName);
 
         verify(memberRepository).findByMemberName(memberName);
@@ -45,8 +47,6 @@ class GetMemberServiceTest {
 
     @Test
     void count() {
-        String memberName = "ashal1234";
-
         Integer count = getMemberService.count(memberName);
 
         verify(memberRepository).findAllByMemberName(memberName);

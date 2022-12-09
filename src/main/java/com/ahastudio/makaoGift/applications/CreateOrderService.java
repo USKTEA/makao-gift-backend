@@ -10,6 +10,7 @@ import com.ahastudio.makaoGift.models.Buyer;
 import com.ahastudio.makaoGift.models.Cost;
 import com.ahastudio.makaoGift.models.DeliveryInformation;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.models.OrderItem;
 import com.ahastudio.makaoGift.models.OrderNumber;
@@ -57,7 +58,7 @@ public class CreateOrderService {
 
         Order saved = orderRepository.save(order);
 
-        Member member = memberRepository.findByMemberName(buyer.name())
+        Member member = memberRepository.findByMemberName(new MemberName(buyer.name()))
                 .orElseThrow(MemberNotFound::new);
 
         member.order(saved);

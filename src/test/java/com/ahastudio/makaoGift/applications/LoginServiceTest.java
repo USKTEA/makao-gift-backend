@@ -1,8 +1,9 @@
 package com.ahastudio.makaoGift.applications;
 
-import com.ahastudio.makaoGift.dtos.LoginRequestDto;
 import com.ahastudio.makaoGift.exceptions.LoginFailed;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
+import com.ahastudio.makaoGift.models.Password;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,12 +34,12 @@ class LoginServiceTest {
 
     @Test
     void loginSuccess() {
-        String memberName = "ashal1234";
-        String password = "Password1234!";
+        MemberName memberName = new MemberName("ashal1234");
+        Password password = new Password("Password1234!");
 
         Member member = Member.fake(memberName);
 
-        member.changePassword(password, passwordEncoder);
+        member.changePassword(password);
 
         given(memberRepository.findByMemberName(memberName))
                 .willReturn(Optional.of(member));
@@ -51,12 +52,12 @@ class LoginServiceTest {
     @Test
     void loginWithIncorrectMemberName() {
         assertThrows(LoginFailed.class, () ->
-                loginService.login("xxx", "Password1234!"));
+                loginService.login(new MemberName("notashal1234"), new Password("Password1234!")));
     }
 
     @Test
     void loginWithIncorrectPassword() {
         assertThrows(LoginFailed.class, () ->
-                loginService.login("ashal1234", "xxx"));
+                loginService.login(new MemberName("ashal1234"), new Password("notPassword1234!")));
     }
 }

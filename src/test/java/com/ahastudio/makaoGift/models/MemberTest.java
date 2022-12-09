@@ -1,28 +1,50 @@
 package com.ahastudio.makaoGift.models;
 
 import com.ahastudio.makaoGift.exceptions.AmountNotEnough;
+import com.ahastudio.makaoGift.exceptions.MatchPasswordFailed;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 class MemberTest {
+    MemberName memberName;
+    Name name;
+
+    @BeforeEach
+    void setUp() {
+        memberName = new MemberName("ashal1234");
+        name = new Name("김아샬");
+    }
 
     @Test
-    void authenticate() {
-        Member member = Member.fake("ashal1234");
-        String password = "Password1234!";
+    void authenticateSuccess() {
+        Password password = new Password("Password1234!");
 
-        PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
+        Member member = Member.fake(memberName);
 
-        member.changePassword(password, passwordEncoder);
+        member.changePassword(password);
 
-        assertThat(member.authenticate(password, passwordEncoder)).isTrue();
-        assertThat(member.authenticate("xxx", passwordEncoder)).isFalse();
+        assertDoesNotThrow(() -> member.authenticate(password));
+    }
+
+    @Test
+    void authenticateFail() {
+        Member member = Member.fake(memberName);
+
+        Password password = new Password("Password1234!");
+
+        member.changePassword(password);
+
+        Password other = new Password("notPassword1234!");
+
+        assertThrows(MatchPasswordFailed.class, () -> {
+            member.authenticate(other);
+        });
     }
 
     @Test
@@ -31,7 +53,7 @@ class MemberTest {
         Long id = 1L;
         Cost cost = new Cost(1000L);
 
-        Member member = new Member(1L, "ashal1234", "Ashal", amount);
+        Member member = new Member(1L, memberName, name, amount);
 
         Order order = new Order(id, cost);
 
@@ -47,7 +69,7 @@ class MemberTest {
         Long id = 1L;
         Cost cost = new Cost(1000L);
 
-        Member member = new Member(1L, "ashal1234", "Ashal", amount);
+        Member member = new Member(1L, memberName, name, amount);
 
         Order order = new Order(id, cost);
 
@@ -58,11 +80,17 @@ class MemberTest {
 
     @Test
     void checkDuplicated() {
-        String memberName = "ashal1234";
-
         Member member1 = Member.fake(memberName);
         Member member2 = Member.fake(memberName);
 
         assertThat(member2.isDuplicated(member1.memberName())).isTrue();
+    }
+
+    @Test
+    void equality() {
+        Member member1 = Member.fake(memberName);
+        Member member2 = Member.fake(memberName);
+
+        assertThat(member1).isEqualTo(member2);
     }
 }

@@ -3,6 +3,7 @@ package com.ahastudio.makaoGift.applications;
 import com.ahastudio.makaoGift.dtos.SignUpRequestDto;
 import com.ahastudio.makaoGift.exceptions.SignUpFailed;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,10 +31,10 @@ class CreateMemberServiceTest {
     @Test
     void createSuccess() {
         String name = "김아샬";
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
         String password = "Password1234!";
 
-        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(name, memberName, password);
+        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(name, memberName.value(), password);
 
         given(memberRepository.findByMemberName(memberName))
                 .willReturn(Optional.empty());
@@ -59,12 +60,12 @@ class CreateMemberServiceTest {
     @Test
     void whenMemberNameAlreadyInUse() {
         String name = "김아샬";
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
         String password = "Password1234!";
 
         Member member = Member.fake(memberName);
 
-        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(name, memberName, password);
+        SignUpRequestDto signUpRequestDto = new SignUpRequestDto(name, memberName.value(), password);
 
         given(memberRepository.findByMemberName(memberName))
                 .willReturn(Optional.of(member));

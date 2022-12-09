@@ -29,16 +29,16 @@ public class CreateMemberService {
         MemberName memberName = new MemberName(signUpRequestDto.getMemberName());
         Password password = new Password(signUpRequestDto.getPassword());
 
-        Member member = memberRepository.findByMemberName(memberName.value())
+        Member member = memberRepository.findByMemberName(memberName)
                 .orElse(new Member());
 
-        if (member.isDuplicated(memberName.value())) {
+        if (member.isDuplicated(memberName)) {
             throw new MemberNameAlreadyInUse();
         }
 
-        member = member.of(name.value(), memberName.value());
+        member = member.of(name, memberName);
 
-        member.changePassword(password.value(), passwordEncoder);
+        member.changePassword(password);
 
         member.increaseAmount(50000L);
 

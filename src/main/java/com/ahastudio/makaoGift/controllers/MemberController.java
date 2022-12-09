@@ -7,6 +7,7 @@ import com.ahastudio.makaoGift.dtos.MemberDto;
 import com.ahastudio.makaoGift.dtos.SignUpRequestDto;
 import com.ahastudio.makaoGift.dtos.SignUpResultDto;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class MemberController {
 
     @GetMapping("me")
     public MemberDto login(
-            @RequestAttribute("memberName") String memberName
+            @RequestAttribute("memberName") MemberName memberName
     ) {
         Member member = getMemberService.detail(memberName);
 
@@ -40,7 +41,7 @@ public class MemberController {
     }
 
     @GetMapping
-    public MemberCountDto count(@RequestParam boolean countOnly, String memberName) {
+    public MemberCountDto count(@RequestParam boolean countOnly, MemberName memberName) {
         if (countOnly) {
             return new MemberCountDto(getMemberService.count(memberName));
         }

@@ -1,6 +1,7 @@
 package com.ahastudio.makaoGift.interceptors;
 
 import com.ahastudio.makaoGift.exceptions.AuthenticationError;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.utils.JwtUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,7 +21,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             HttpServletRequest request,
             HttpServletResponse response,
             Object handler) throws Exception {
-
         String authorization = request.getHeader("Authorization");
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
@@ -30,7 +30,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         String accessToken = authorization.substring("Bearer ".length());
 
         try {
-            String memberName = jwtUtil.decode(accessToken);
+            MemberName memberName = new MemberName(jwtUtil.decode(accessToken));
             request.setAttribute("memberName", memberName);
 
             return true;

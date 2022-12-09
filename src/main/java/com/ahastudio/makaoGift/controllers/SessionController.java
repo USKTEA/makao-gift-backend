@@ -5,6 +5,9 @@ import com.ahastudio.makaoGift.dtos.LoginRequestDto;
 import com.ahastudio.makaoGift.dtos.LoginResultDto;
 import com.ahastudio.makaoGift.exceptions.LoginFailed;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
+import com.ahastudio.makaoGift.models.Name;
+import com.ahastudio.makaoGift.models.Password;
 import com.ahastudio.makaoGift.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,16 +35,18 @@ public class SessionController {
     public LoginResultDto login(
             @Valid @RequestBody LoginRequestDto loginRequestDto
     ) {
-        String memberName = loginRequestDto.getMemberName();
-        String password = loginRequestDto.getPassword();
+        MemberName memberName = new MemberName(loginRequestDto.getMemberName());
+        Password password = new Password(loginRequestDto.getPassword());
 
         Member member = loginService.login(memberName, password);
 
-        String accessToken = jwtUtil.encode(member.memberName());
+        Name name = member.name();
+
+        String accessToken = jwtUtil.encode(memberName.value());
 
         return new LoginResultDto(
                 accessToken,
-                member.name(),
+                name.value(),
                 member.amount()
         );
     }

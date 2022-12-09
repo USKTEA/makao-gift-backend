@@ -2,6 +2,7 @@ package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.exceptions.MemberNotFound;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,14 @@ public class GetMemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member detail(String memberName) {
+    public Member detail(MemberName memberName) {
         Member member = memberRepository.findByMemberName(memberName)
                 .orElseThrow(MemberNotFound::new);
 
         return member;
     }
 
-    public Integer count(String memberName) {
+    public Integer count(MemberName memberName) {
         List<Member> members = memberRepository.findAllByMemberName(memberName);
 
         return members.size();

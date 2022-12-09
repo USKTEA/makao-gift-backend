@@ -6,6 +6,7 @@ import com.ahastudio.makaoGift.applications.CreateOrderService;
 import com.ahastudio.makaoGift.applications.GetMemberService;
 import com.ahastudio.makaoGift.dtos.SignUpRequestDto;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,15 +43,18 @@ class MemberControllerTest {
     @MockBean
     private CreateMemberService createMemberService;
 
+    private MemberName memberName;
+
     @BeforeEach
     void setup() {
-        given(getMemberService.detail(any()))
-                .willReturn(Member.fake("ashal1234"));
+        memberName = new MemberName("ashal1234");
+        given(getMemberService.detail(memberName))
+                .willReturn(Member.fake(memberName));
     }
 
     @Test
     void member() throws Exception {
-        String token = jwtUtil.encode("ashal1234");
+        String token = jwtUtil.encode(memberName.value());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/members/me")
                         .header("Authorization", "Bearer " + token))
@@ -62,11 +66,9 @@ class MemberControllerTest {
 
     @Test
     void whenThereIsSameMemberName() throws Exception {
-        String memberName = "ashal1234";
+        given(getMemberService.count(memberName)).willReturn(1);
 
-        given(getMemberService.count("ashal1234")).willReturn(1);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/members?countOnly=true&memberName=" + memberName))
+        mockMvc.perform(MockMvcRequestBuilders.get("/members?countOnly=true&memberName=" + memberName.value()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("1")
@@ -75,11 +77,9 @@ class MemberControllerTest {
 
     @Test
     void whenThereIsNoSameMemberName() throws Exception {
-        String memberName = "ashal1234";
+        given(getMemberService.count(memberName)).willReturn(0);
 
-        given(getMemberService.count("ashal1234")).willReturn(0);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/members?countOnly=true&memberName=" + memberName))
+        mockMvc.perform(MockMvcRequestBuilders.get("/members?countOnly=true&memberName=" + memberName.value()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("0")
@@ -89,7 +89,6 @@ class MemberControllerTest {
     @Test
     void whenRegisterSuccess() throws Exception {
         String name = "김아샬";
-        String memberName = "tester1234";
         String password = "Password1234";
 
         given(createMemberService.create(any()))
@@ -99,7 +98,7 @@ class MemberControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"name\":\""+ name +"\"," +
-                                " \"memberName\":\""+ memberName +"\"," +
+                                " \"memberName\":\""+ memberName.value() +"\"," +
                                 "\"password\":\""+ password +"\"" +
                                 "}"))
                 .andExpect(status().isCreated())
@@ -111,14 +110,13 @@ class MemberControllerTest {
     @Test
     void whenNameIsBlank() throws Exception {
         String name = "";
-        String memberName = "tester1234";
         String password = "Password1234";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/members")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"name\":\""+ name +"\"," +
-                                " \"memberName\":\""+ memberName +"\"," +
+                                " \"memberName\":\""+ memberName.value() +"\"," +
                                 "\"password\":\""+ password +"\"" +
                                 "}"))
                 .andExpect(status().isBadRequest());
