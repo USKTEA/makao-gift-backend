@@ -21,15 +21,12 @@ import static org.mockito.Mockito.mock;
 @ActiveProfiles("test")
 class LoginServiceTest {
     private LoginService loginService;
-    private PasswordEncoder passwordEncoder;
     private MemberRepository memberRepository;
 
     @BeforeEach
     void setUp() {
         memberRepository = mock(MemberRepository.class);
-        passwordEncoder = new Argon2PasswordEncoder();
-
-        loginService = new LoginService(memberRepository, passwordEncoder);
+        loginService = new LoginService(memberRepository);
     }
 
     @Test

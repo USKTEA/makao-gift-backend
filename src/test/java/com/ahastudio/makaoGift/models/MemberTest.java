@@ -12,13 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 class MemberTest {
-    MemberName memberName;
-    Name name;
+    private MemberName memberName;
+    private Name name;
+    private Money amount;
 
     @BeforeEach
     void setUp() {
         memberName = new MemberName("ashal1234");
         name = new Name("김아샬");
+        amount = new Money(50000L);
     }
 
     @Test
@@ -49,7 +51,6 @@ class MemberTest {
 
     @Test
     void orderWhenHaveEnoughAmount() {
-        Long amount = 10000L;
         Long id = 1L;
         Cost cost = new Cost(1000L);
 
@@ -57,16 +58,15 @@ class MemberTest {
 
         Order order = new Order(id, cost);
 
-        member.order(order);
+        assertDoesNotThrow(() -> member.order(order));
 
-        assertThat(member.amount()).isEqualTo(amount - cost.amount());
         assertThat(member.orderCounts()).isEqualTo(1);
     }
 
     @Test
     void orderWhenDontHaveEnoughAmount() {
-        Long amount = 500L;
         Long id = 1L;
+        Money amount = new Money(500L);
         Cost cost = new Cost(1000L);
 
         Member member = new Member(1L, memberName, name, amount);
@@ -76,14 +76,6 @@ class MemberTest {
         assertThrows(AmountNotEnough.class, () -> {
             member.order(order);
         });
-    }
-
-    @Test
-    void checkDuplicated() {
-        Member member1 = Member.fake(memberName);
-        Member member2 = Member.fake(memberName);
-
-        assertThat(member2.isDuplicated(member1.memberName())).isTrue();
     }
 
     @Test

@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @Import({UtfEncoding.Config.class})
 public @interface UtfEncoding {
+
     class Config {
         @Bean
         public CharacterEncodingFilter characterEncodingFilter() {

@@ -9,6 +9,7 @@ import com.ahastudio.makaoGift.dtos.OrdersDto;
 import com.ahastudio.makaoGift.dtos.PageDto;
 import com.ahastudio.makaoGift.exceptions.OrderCreateFailed;
 import com.ahastudio.makaoGift.exceptions.OrderRequestFailed;
+import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.models.Order;
 import org.springframework.data.domain.Page;
@@ -41,7 +42,7 @@ public class OrderController {
 
     @GetMapping
     public OrdersDto list(
-            @RequestAttribute String memberName,
+            @RequestAttribute MemberName memberName,
             @RequestParam(required = false, defaultValue = "1") Integer page
     ) {
         Page<Order> found = getOrderService.list(memberName, page);

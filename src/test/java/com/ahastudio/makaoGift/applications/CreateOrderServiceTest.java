@@ -43,14 +43,13 @@ class CreateOrderServiceTest {
     void whenCreateOrderSuccess() {
         OrderNumber orderNumber = new OrderNumber("test");
         Buyer buyer = new Buyer("tester");
-        Order order = new Order();
         Cost cost = new Cost(1000L);
         Order saved = new Order(1L, cost);
 
         OrderRequestDto orderRequestDto = OrderRequestDto.fake(orderNumber);
 
-        given(orderRepository.findByOrderNumber(orderNumber))
-                .willReturn(Optional.of(order));
+        given(orderRepository.existsByOrderNumberAndBuyer(orderNumber, buyer))
+                .willReturn(false);
 
         given(orderRepository.save(any())).willReturn(saved);
 
@@ -74,10 +73,8 @@ class CreateOrderServiceTest {
 
         Buyer buyer = new Buyer(specificationDto.getBuyer());
 
-        Order order = Order.fake(orderNumber, buyer);
-
-        given(orderRepository.findByOrderNumber(orderNumber))
-                .willReturn(Optional.of(order));
+        given(orderRepository.existsByOrderNumberAndBuyer(orderNumber, buyer))
+                .willReturn(true);
 
         assertThrows(OrderAlreadyExists.class, () -> {
             createOrderService.create(orderRequestDto);

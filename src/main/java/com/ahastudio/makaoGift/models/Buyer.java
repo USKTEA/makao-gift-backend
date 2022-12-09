@@ -36,6 +36,7 @@ public class Buyer {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
+
         Buyer buyer = (Buyer) other;
 
         return Objects.equals(value, buyer.value);

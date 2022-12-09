@@ -2,10 +2,14 @@ package com.ahastudio.makaoGift.models;
 
 import com.ahastudio.makaoGift.exceptions.IncorrectSignUpName;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Name {
+    @Column(name = "name")
     private String value;
 
     public Name() {

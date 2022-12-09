@@ -1,9 +1,9 @@
 package com.ahastudio.makaoGift.models;
 
 import com.ahastudio.makaoGift.dtos.MemberDto;
-import com.ahastudio.makaoGift.exceptions.AmountNotEnough;
 
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,10 +16,18 @@ public class Member {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Embedded
     private Name name;
+
+    @Embedded
     private MemberName memberName;
+
+    @Embedded
     private Password encodedPassword;
-    private Long amount;
+
+    @Embedded
+    private Money amount;
 
     @ElementCollection
     private List<Long> orders;
@@ -27,7 +35,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(Long id, MemberName memberName, Name name, Long amount) {
+    public Member(Long id, MemberName memberName, Name name, Money amount) {
         this.id = id;
         this.name = name;
         this.memberName = memberName;
@@ -35,21 +43,15 @@ public class Member {
         this.orders = new ArrayList<>();
     }
 
-    public Member(Name name, MemberName memberName) {
+    public Member(Name name, MemberName memberName, Password password) {
         this.name = name;
         this.memberName = memberName;
-    }
-
-    public static Member fake(MemberName memberName) {
-        return new Member(1L, memberName, new Name("김이박최아샬"), 50000L);
+        this.encodedPassword = password.encode();
     }
 
     public void order(Order order) {
-        if (this.amount < order.cost()) {
-            throw new AmountNotEnough();
-        }
+        this.amount = this.amount.decrease(new Money(order.cost()));
 
-        this.amount -= order.cost();
         this.orders.add(order.id());
     }
 
@@ -59,6 +61,10 @@ public class Member {
 
     public void changePassword(Password password) {
         encodedPassword = password.encode();
+    }
+
+    public void increaseAmount(Money amount) {
+        this.amount = amount;
     }
 
     public Long id() {
@@ -73,11 +79,7 @@ public class Member {
         return memberName;
     }
 
-    public Password encodedPassword() {
-        return this.encodedPassword;
-    }
-
-    public Long amount() {
+    public Money amount() {
         return amount;
     }
 
@@ -86,24 +88,17 @@ public class Member {
     }
 
     public MemberDto toDto() {
-        return new MemberDto(memberName.value(), name.value(), amount);
+        return new MemberDto(memberName.value(), name.value(), amount.amount());
     }
 
-    public boolean isDuplicated(MemberName memberName) {
-        if (Objects.equals(this.memberName, memberName)) {
-            return true;
-        }
-
-        return false;
+    public static Member of(Name name, MemberName memberName, Password password) {
+        return new Member(name, memberName, password);
     }
 
-    public Member of(Name name, MemberName memberName) {
-        return new Member(name, memberName);
+    public static Member fake(MemberName memberName) {
+        return new Member(1L, memberName, new Name("김이박최아샬"), new Money(50000L));
     }
 
-    public void increaseAmount(Long amount) {
-        this.amount = amount;
-    }
 
     @Override
     public boolean equals(Object other) {
@@ -111,5 +106,11 @@ public class Member {
 
         return Objects.equals(this.id, otherMember.id)
                 && Objects.equals(this.memberName, otherMember.memberName);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
