@@ -13,7 +13,7 @@ public class Buyer {
     private String value;
 
     public Buyer(String value) {
-        if (value.isBlank()) {
+        if (Objects.isNull(value) || value.isBlank()) {
             throw new BuyerDoesNotExists();
         }
 

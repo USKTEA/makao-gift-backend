@@ -3,6 +3,8 @@ package com.ahastudio.makaoGift.controllers;
 import com.ahastudio.makaoGift.applications.LoginService;
 import com.ahastudio.makaoGift.exceptions.LoginFailed;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
+import com.ahastudio.makaoGift.models.Password;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +24,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class SessionControllerTest {
 
+    MemberName memberName;
+    Password password;
+    Password wrongPassword;
+
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private LoginService loginService;
 
     @BeforeEach
     void setUp() {
-        Member member = Member.fake("ashal1234");
-        given(loginService.login("ashal1234", "Password1234!"))
+        memberName = new MemberName("ashal1234");
+        password = new Password("Password1234!");
+
+        wrongPassword = new Password("notPassword1234!");
+
+        Member member = Member.fake(memberName);
+
+        given(loginService.login(memberName, password))
                 .willReturn(member);
-        given(loginService.login("ashal1234", "xxx"))
+
+        given(loginService.login(memberName, wrongPassword))
                 .willThrow(new LoginFailed());
     }
 
@@ -42,8 +54,8 @@ class SessionControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/session")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
-                                "\"memberName\":\"ashal1234\"," +
-                                " \"password\":\"Password1234!\"" +
+                                "\"memberName\":\"" + memberName.value() + "\"," +
+                                " \"password\":\"" + password.number() + "\"" +
                                 "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(
@@ -56,8 +68,8 @@ class SessionControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/session")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
-                                "\"memberName\":\"ashal1234\"," +
-                                " \"password\":\"xxx\"" +
+                                "\"memberName\":\"" + memberName.value() + "\"," +
+                                " \"password\":\"" + wrongPassword.number() + "\"" +
                                 "}"))
                 .andExpect(status().isBadRequest());
     }

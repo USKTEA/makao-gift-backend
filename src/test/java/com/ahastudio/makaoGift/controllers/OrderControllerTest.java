@@ -5,6 +5,8 @@ import com.ahastudio.makaoGift.applications.GetOrderService;
 import com.ahastudio.makaoGift.models.Buyer;
 import com.ahastudio.makaoGift.models.Cost;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
+import com.ahastudio.makaoGift.models.Name;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.models.OrderNumber;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
@@ -58,7 +60,7 @@ class OrderControllerTest {
         OrderNumber orderNumber = new OrderNumber("test");
         Buyer buyer = new Buyer("tester");
         Cost cost = new Cost(100L);
-        Member member = new Member(1L, buyer.name(), "Ashal", 50_000L);
+        Member member = new Member(1L, new MemberName(buyer.name()), new Name("김아샬"), 50_000L);
 
         given(orderRepository.findByOrderNumber(orderNumber)).willReturn(
                 Optional.of(new Order())
@@ -68,7 +70,7 @@ class OrderControllerTest {
                 new Order(1L, cost)
         );
 
-        given(memberRepository.findByMemberName(buyer.name()))
+        given(memberRepository.findByMemberName(new MemberName(buyer.name())))
                 .willReturn(Optional.of(member));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/orders")
@@ -179,7 +181,7 @@ class OrderControllerTest {
 
         String token = jwtUtil.encode(memberName);
 
-        given(orderRepository.findById(any()))
+        given(orderRepository.findById(id))
                 .willReturn(Optional.of(order));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/" + id)

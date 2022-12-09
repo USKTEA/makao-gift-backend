@@ -1,6 +1,5 @@
 package com.ahastudio.makaoGift.applications;
 
-import com.ahastudio.makaoGift.dtos.LoginRequestDto;
 import com.ahastudio.makaoGift.exceptions.LoginFailed;
 import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
@@ -19,13 +18,11 @@ public class LoginService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Member login(String memberName, String password) {
+    public Member login(MemberName memberName, Password password) {
         Member member = memberRepository.findByMemberName(memberName)
                 .orElseThrow(LoginFailed::new);
 
-        if (!member.authenticate(password, passwordEncoder)) {
-            throw new LoginFailed();
-        }
+        member.authenticate(password);
 
         return member;
     }

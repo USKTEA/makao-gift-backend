@@ -4,6 +4,7 @@ import com.ahastudio.makaoGift.dtos.DeliveryInformationDto;
 import com.ahastudio.makaoGift.exceptions.InvalidDeliveryInformation;
 
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 @Embeddable
 public class DeliveryInformation {
@@ -15,6 +16,7 @@ public class DeliveryInformation {
     }
 
     public DeliveryInformation(DeliveryInformationDto deliveryInformationDto) {
+        System.out.println(deliveryInformationDto.getRecipient());
         if (deliveryInformationDto.getRecipient().isBlank() || deliveryInformationDto.getAddress().isBlank()) {
             throw new InvalidDeliveryInformation();
         }

@@ -2,6 +2,7 @@ package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.exceptions.OrderRequestFailed;
 import com.ahastudio.makaoGift.models.Buyer;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.repositories.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,9 +50,9 @@ class GetOrderServiceTest {
     @Test
     void whenMemberRequestItsOwnOrder() {
         Long id = 1L;
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
 
-        Buyer buyer = new Buyer(memberName);
+        Buyer buyer = new Buyer(memberName.value());
 
         Order order = new Order(id, buyer);
 
@@ -66,7 +67,7 @@ class GetOrderServiceTest {
     @Test
     void whenThereIsNoOrder() {
         Long id = 9999999L;
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
 
         given(orderRepository.findById(id))
                 .willReturn(Optional.empty());
@@ -79,7 +80,7 @@ class GetOrderServiceTest {
     @Test
     void whenOrderIsNotOwnByMember() {
         Long id = 1L;
-        String memberName = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
 
         Buyer buyer = new Buyer("notAshal1234");
 

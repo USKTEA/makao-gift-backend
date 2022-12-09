@@ -96,8 +96,8 @@ public class Order {
         return false;
     }
 
-    public void checkIsOwnBuy(String memberName) {
-        if (!Objects.equals(buyer.name(), memberName)) {
+    public void checkIsOwnBuy(MemberName memberName) {
+        if (!Objects.equals(buyer.name(), memberName.value())) {
             throw new OrderRequestFailed();
         }
     }

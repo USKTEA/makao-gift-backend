@@ -6,6 +6,7 @@ import com.ahastudio.makaoGift.exceptions.OrderAlreadyExists;
 import com.ahastudio.makaoGift.models.Buyer;
 import com.ahastudio.makaoGift.models.Cost;
 import com.ahastudio.makaoGift.models.Member;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.models.OrderNumber;
 import com.ahastudio.makaoGift.repositories.MemberRepository;
@@ -53,7 +54,7 @@ class CreateOrderServiceTest {
 
         given(orderRepository.save(any())).willReturn(saved);
 
-        given(memberRepository.findByMemberName(buyer.name()))
+        given(memberRepository.findByMemberName(new MemberName(buyer.name())))
                 .willReturn(Optional.of(member));
 
         assertDoesNotThrow(() -> {

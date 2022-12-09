@@ -2,6 +2,7 @@ package com.ahastudio.makaoGift.applications;
 
 import com.ahastudio.makaoGift.exceptions.OrderRequestFailed;
 import com.ahastudio.makaoGift.models.Buyer;
+import com.ahastudio.makaoGift.models.MemberName;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.repositories.OrderRepository;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class GetOrderService {
         return orders;
     }
 
-    public Order order(String memberName, Long id) {
+    public Order order(MemberName memberName, Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(OrderRequestFailed::new);
 
