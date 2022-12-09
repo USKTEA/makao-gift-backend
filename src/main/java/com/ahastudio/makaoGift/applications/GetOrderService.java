@@ -22,10 +22,10 @@ public class GetOrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Page<Order> list(String memberName, int page) {
+    public Page<Order> list(MemberName memberName, int page) {
         Sort sort = Sort.by("createdAt").descending();
         Pageable pageable = PageRequest.of(page - 1, 8, sort);
-        Buyer buyer = new Buyer(memberName);
+        Buyer buyer = new Buyer(memberName.value());
 
         Page<Order> orders = orderRepository.findByBuyer(buyer, pageable);
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class AuthenticationAdvice {
+
     @ResponseBody
     @ExceptionHandler(AuthenticationError.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

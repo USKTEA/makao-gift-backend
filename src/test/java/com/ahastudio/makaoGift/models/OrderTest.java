@@ -9,17 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 class OrderTest {
-
-    @Test
-    void isDuplicated() {
-        OrderNumber orderNumber = new OrderNumber("test");
-        Buyer buyer = new Buyer("tester");
-
-        Order order = Order.fake(orderNumber, buyer);
-
-        assertThat(order.isDuplicated(orderNumber, buyer)).isTrue();
-    }
-
+    
     @Test
     void whenIsOwnByRequestMember() {
         MemberName memberName = new MemberName("ashal1234");

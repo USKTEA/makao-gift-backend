@@ -6,6 +6,7 @@ import com.ahastudio.makaoGift.models.Buyer;
 import com.ahastudio.makaoGift.models.Cost;
 import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
+import com.ahastudio.makaoGift.models.Money;
 import com.ahastudio.makaoGift.models.Name;
 import com.ahastudio.makaoGift.models.Order;
 import com.ahastudio.makaoGift.models.OrderNumber;
@@ -60,7 +61,7 @@ class OrderControllerTest {
         OrderNumber orderNumber = new OrderNumber("test");
         Buyer buyer = new Buyer("tester");
         Cost cost = new Cost(100L);
-        Member member = new Member(1L, new MemberName(buyer.name()), new Name("김아샬"), 50_000L);
+        Member member = new Member(1L, new MemberName(buyer.name()), new Name("김아샬"), new Money(50_000L));
 
         given(orderRepository.findByOrderNumber(orderNumber)).willReturn(
                 Optional.of(new Order())
@@ -185,7 +186,7 @@ class OrderControllerTest {
                 .willReturn(Optional.of(order));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/" + id)
-                .header("Authorization", "Bearer " + token))
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
                         containsString("\"id\":" + id)

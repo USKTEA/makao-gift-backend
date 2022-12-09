@@ -88,14 +88,6 @@ public class Order {
         this.deliveryInformation = deliveryInformation;
     }
 
-    public boolean isDuplicated(OrderNumber orderNumber, Buyer buyer) {
-        if (Objects.equals(this.orderNumber, orderNumber) && Objects.equals(this.buyer, buyer)) {
-            return true;
-        }
-
-        return false;
-    }
-
     public void checkIsOwnBuy(MemberName memberName) {
         if (!Objects.equals(buyer.name(), memberName.value())) {
             throw new OrderRequestFailed();
@@ -126,12 +118,12 @@ public class Order {
         return new Order(orderNumber);
     }
 
-    public Order of(OrderNumber orderNumber,
-                    Buyer buyer,
-                    OrderItem orderItem,
-                    Quantity quantity,
-                    Cost cost,
-                    DeliveryInformation deliveryInformation) {
+    public static Order of(OrderNumber orderNumber,
+                           Buyer buyer,
+                           OrderItem orderItem,
+                           Quantity quantity,
+                           Cost cost,
+                           DeliveryInformation deliveryInformation) {
         return new Order(orderNumber, buyer, orderItem, quantity, cost, deliveryInformation);
     }
 
@@ -142,6 +134,6 @@ public class Order {
                 cost.value(),
                 deliveryInformation.toDto(),
                 createdAt
-                );
+        );
     }
 }

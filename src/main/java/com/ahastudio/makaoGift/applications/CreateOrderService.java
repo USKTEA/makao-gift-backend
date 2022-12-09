@@ -20,8 +20,6 @@ import com.ahastudio.makaoGift.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 @Transactional
@@ -39,27 +37,24 @@ public class CreateOrderService {
         SpecificationDto specificationDto = orderRequestDto.getSpecification();
         Buyer buyer = new Buyer(specificationDto.getBuyer());
 
-        Order order = orderRepository.findByOrderNumber(orderNumber).orElse(new Order());
-
-        if (order.isDuplicated(orderNumber, buyer)) {
+        if (orderRepository.existsByOrderNumberAndBuyer(orderNumber, buyer)) {
             throw new OrderAlreadyExists();
         }
 
-        ProductDto productDto = specificationDto.getProduct();
+        Member member = memberRepository.findByMemberName(new MemberName(buyer.name()))
+                .orElseThrow(MemberNotFound::new);
+
+        OrderItem orderItem = new OrderItem(specificationDto.getProduct());
+        Quantity quantity = new Quantity(specificationDto.getQuantity());
+        Cost cost = new Cost(specificationDto.getCost());
 
         DeliveryInformationDto deliveryInformationDto = specificationDto.getDeliveryInformation();
 
-        OrderItem orderItem = new OrderItem(productDto);
-        Quantity quantity = new Quantity(specificationDto.getQuantity());
-        Cost cost = new Cost(specificationDto.getCost());
         DeliveryInformation deliveryInformation = new DeliveryInformation(deliveryInformationDto);
 
-        order = order.of(orderNumber, buyer, orderItem, quantity, cost, deliveryInformation);
+        Order order = Order.of(orderNumber, buyer, orderItem, quantity, cost, deliveryInformation);
 
         Order saved = orderRepository.save(order);
-
-        Member member = memberRepository.findByMemberName(new MemberName(buyer.name()))
-                .orElseThrow(MemberNotFound::new);
 
         member.order(saved);
 

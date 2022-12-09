@@ -15,46 +15,46 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class MakaoGiftApplication {
-	@Value("${jwt.secret}")
-	private String jwtSecret;
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
-	public static void main(String[] args) {
-		SpringApplication.run(MakaoGiftApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MakaoGiftApplication.class, args);
+    }
 
-	@Bean
-	public WebSecurityCustomizer ignoringCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/**");
-	}
+    @Bean
+    public WebSecurityCustomizer ignoringCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/**");
+    }
 
 
-	@Bean
-	public WebMvcConfigurer webMvcConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addInterceptors(InterceptorRegistry registry) {
-				registry.addInterceptor(authenticationInterceptor());
-			}
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(authenticationInterceptor());
+            }
 
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*");
-			}
-		};
-	}
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+            }
+        };
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new Argon2PasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new Argon2PasswordEncoder();
+    }
 
-	@Bean
-	public AuthenticationInterceptor authenticationInterceptor() {
-		return new AuthenticationInterceptor(jwtUtil());
-	}
+    @Bean
+    public AuthenticationInterceptor authenticationInterceptor() {
+        return new AuthenticationInterceptor(jwtUtil());
+    }
 
-	@Bean
-	public JwtUtil jwtUtil() {
-		return new JwtUtil(jwtSecret);
-	}
+    @Bean
+    public JwtUtil jwtUtil() {
+        return new JwtUtil(jwtSecret);
+    }
 }

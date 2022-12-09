@@ -33,16 +33,16 @@ class GetOrderServiceTest {
 
     @Test
     void list() {
-        String buyer = "ashal1234";
+        MemberName memberName = new MemberName("ashal1234");
 
         Order order = mock(Order.class);
 
         Page<Order> page = new PageImpl<>(List.of(order));
 
-        given(orderRepository.findByBuyer(any(),any()))
+        given(orderRepository.findByBuyer(any(), any()))
                 .willReturn(page);
 
-        Page<Order> orders = getOrderService.list(buyer, 1);
+        Page<Order> orders = getOrderService.list(memberName, 1);
 
         assertThat(orders.getTotalElements()).isEqualTo(1);
     }

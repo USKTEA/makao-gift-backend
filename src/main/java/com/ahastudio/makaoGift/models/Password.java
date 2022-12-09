@@ -2,19 +2,24 @@ package com.ahastudio.makaoGift.models;
 
 import com.ahastudio.makaoGift.exceptions.IncorrectSignUpPassword;
 import com.ahastudio.makaoGift.exceptions.MatchPasswordFailed;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Password {
+    @Column(name = "encodedPassword")
     private String number;
 
     @Transient
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder = new Argon2PasswordEncoder();
 
     public Password() {
     }
@@ -27,7 +32,6 @@ public class Password {
             throw new IncorrectSignUpPassword();
         }
 
-        this.passwordEncoder = new Argon2PasswordEncoder();
         this.number = number;
     }
 

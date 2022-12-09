@@ -36,8 +36,8 @@ class CreateMemberServiceTest {
 
         SignUpRequestDto signUpRequestDto = new SignUpRequestDto(name, memberName.value(), password);
 
-        given(memberRepository.findByMemberName(memberName))
-                .willReturn(Optional.empty());
+        given(memberRepository.existsByMemberName(memberName))
+                .willReturn(false);
 
         createMemberService.create(signUpRequestDto);
 
@@ -63,12 +63,10 @@ class CreateMemberServiceTest {
         MemberName memberName = new MemberName("ashal1234");
         String password = "Password1234!";
 
-        Member member = Member.fake(memberName);
-
         SignUpRequestDto signUpRequestDto = new SignUpRequestDto(name, memberName.value(), password);
 
-        given(memberRepository.findByMemberName(memberName))
-                .willReturn(Optional.of(member));
+        given(memberRepository.existsByMemberName(memberName))
+                .willReturn(true);
 
         assertThrows(SignUpFailed.class, () -> {
             createMemberService.create(signUpRequestDto);

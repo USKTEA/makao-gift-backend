@@ -16,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Order save(Order order);
 
     Page<Order> findByBuyer(Buyer buyer, Pageable pageable);
+
+    Boolean existsByOrderNumberAndBuyer(OrderNumber orderNumber, Buyer buyer);
 }

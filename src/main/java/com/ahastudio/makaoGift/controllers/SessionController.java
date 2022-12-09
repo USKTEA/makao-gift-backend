@@ -6,6 +6,7 @@ import com.ahastudio.makaoGift.dtos.LoginResultDto;
 import com.ahastudio.makaoGift.exceptions.LoginFailed;
 import com.ahastudio.makaoGift.models.Member;
 import com.ahastudio.makaoGift.models.MemberName;
+import com.ahastudio.makaoGift.models.Money;
 import com.ahastudio.makaoGift.models.Name;
 import com.ahastudio.makaoGift.models.Password;
 import com.ahastudio.makaoGift.utils.JwtUtil;
@@ -41,13 +42,14 @@ public class SessionController {
         Member member = loginService.login(memberName, password);
 
         Name name = member.name();
+        Money amount = member.amount();
 
         String accessToken = jwtUtil.encode(memberName.value());
 
         return new LoginResultDto(
                 accessToken,
                 name.value(),
-                member.amount()
+                amount.amount()
         );
     }
 
