@@ -26,7 +26,7 @@ public class Money {
         if (amount < money.amount) {
             throw new AmountNotEnough();
         }
-        
+
         return new Money(amount - money.amount());
     }
 

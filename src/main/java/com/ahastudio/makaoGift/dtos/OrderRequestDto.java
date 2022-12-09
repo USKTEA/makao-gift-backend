@@ -34,7 +34,7 @@ public class OrderRequestDto {
 
     public static OrderRequestDto fake(OrderNumber orderNumber) {
         ProductDto productDto = new ProductDto(1L, "초콜릿", "menufacturer", 1L, "yammy", "1");
-        DeliveryInformationDto deliveryInformationDto = new DeliveryInformationDto("recipient", "address" ,"message");
+        DeliveryInformationDto deliveryInformationDto = new DeliveryInformationDto("recipient", "address", "message");
         SpecificationDto specificationDto = new SpecificationDto("tester", productDto, 1L, 1L, deliveryInformationDto);
 
         return new OrderRequestDto(orderNumber.value(), specificationDto);

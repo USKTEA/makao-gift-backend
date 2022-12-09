@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("members")
 public class MemberController {
     private final GetMemberService getMemberService;
-    private CreateMemberService createMemberService;
+    private final CreateMemberService createMemberService;
 
     public MemberController(GetMemberService getMemberService, CreateMemberService createMemberService) {
         this.getMemberService = getMemberService;
@@ -32,9 +32,7 @@ public class MemberController {
     }
 
     @GetMapping("me")
-    public MemberDto login(
-            @RequestAttribute("memberName") MemberName memberName
-    ) {
+    public MemberDto login(@RequestAttribute("memberName") MemberName memberName) {
         Member member = getMemberService.detail(memberName);
 
         return member.toDto();

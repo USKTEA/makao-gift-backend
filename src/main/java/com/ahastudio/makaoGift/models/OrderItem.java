@@ -39,7 +39,7 @@ public class OrderItem {
 
         if (productDto.getName().isBlank() || productDto.getManufacturer().isBlank()
                 || productDto.getManufacturer().isBlank() || productDto.getDescription().isBlank()
-        || productDto.getImageUrl().isBlank()) {
+                || productDto.getImageUrl().isBlank()) {
             throw new OrderItemError();
         }
 
@@ -49,6 +49,10 @@ public class OrderItem {
         this.price = productDto.getPrice();
         this.description = productDto.getDescription();
         this.imageUrl = productDto.getImageUrl();
+    }
+
+    public static OrderItem fake() {
+        return new OrderItem(1L, "fakeItem", "fakeManufacturer", 100L, "fake", "fake");
     }
 
     public Long getId() {
@@ -77,9 +81,5 @@ public class OrderItem {
 
     public OrderItemDto toDto() {
         return new OrderItemDto(id, name, manufacturer, price, description, imageUrl);
-    }
-
-    public static OrderItem fake() {
-        return new OrderItem(1L, "fakeItem", "fakeManufacturer", 100L, "fake", "fake");
     }
 }

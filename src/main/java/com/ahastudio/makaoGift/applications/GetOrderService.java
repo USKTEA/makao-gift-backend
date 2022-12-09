@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class GetOrderService {
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public GetOrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
