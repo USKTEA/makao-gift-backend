@@ -36,21 +36,24 @@ public class SessionController {
     public LoginResultDto login(
             @Valid @RequestBody LoginRequestDto loginRequestDto
     ) {
-        MemberName memberName = new MemberName(loginRequestDto.getMemberName());
-        Password password = new Password(loginRequestDto.getPassword());
+        try {
+            MemberName memberName = new MemberName(loginRequestDto.getMemberName());
+            Password password = new Password(loginRequestDto.getPassword());
 
-        Member member = loginService.login(memberName, password);
+            Member member = loginService.login(memberName, password);
 
-        Name name = member.name();
-        Money amount = member.amount();
+            String accessToken = jwtUtil.encode(memberName.value());
+            Name name = member.name();
+            Money amount = member.amount();
 
-        String accessToken = jwtUtil.encode(memberName.value());
-
-        return new LoginResultDto(
-                accessToken,
-                name.value(),
-                amount.amount()
-        );
+            return new LoginResultDto(
+                    accessToken,
+                    name.value(),
+                    amount.amount()
+            );
+        } catch (Exception exception) {
+            throw new LoginFailed();
+        }
     }
 
     @ExceptionHandler(LoginFailed.class)
